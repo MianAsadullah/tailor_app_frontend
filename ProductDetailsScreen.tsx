@@ -72,7 +72,7 @@ const ProductDetailsScreen = () => {
           <Text style={styles.productPrice}>Rp 170.000</Text>
           <View style={styles.productMetaRow}>
             <View style={styles.ratingRow}>
-              <Star size={16} color="#000000" fill="#000000" strokeWidth={0} />
+              <Star size={16} color="#FFB200" fill="#FFB200" strokeWidth={0} />
               <Text style={styles.ratingText}>4.6</Text>
               <Text style={styles.orderCount}>54 Order</Text>
             </View>
@@ -81,14 +81,14 @@ const ProductDetailsScreen = () => {
                 style={styles.quantityBtn}
                 onPress={() => setQuantity(q => Math.max(1, q - 1))}
               >
-                <Minus size={18} color="#FFFFFF" strokeWidth={2.5} />
+                <Minus size={18} color="#000000" strokeWidth={2.5} />
               </TouchableOpacity>
               <Text style={styles.quantityValue}>{quantity}</Text>
               <TouchableOpacity
                 style={styles.quantityBtn}
                 onPress={() => setQuantity(q => q + 1)}
               >
-                <Plus size={18} color="#FFFFFF" strokeWidth={2.5} />
+                <Plus size={18} color="#000000" strokeWidth={2.5} />
               </TouchableOpacity>
             </View>
           </View>
@@ -133,10 +133,10 @@ const ProductDetailsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ffffff',
   },
   headerShape: {
-    backgroundColor: '#E0F7EF',
+    backgroundColor: '#FFB200',
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
     paddingTop: 48,
@@ -172,11 +172,13 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   productCard: {
+    width: '80%',
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     overflow: 'hidden',
     paddingBottom: 16,
     marginBottom: 20,
+    alignSelf: 'center', 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
@@ -231,16 +233,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   quantityBtn: {
-    width: 32,
-    height: 32,
+    width: 19,
+    height: 19,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#000000',
     alignItems: 'center',
     justifyContent: 'center',
   },
   quantityBtnText: {
-    fontSize: 18,
+    fontSize: 12,
     color: '#000000',
     fontWeight: '500',
   },
@@ -248,54 +250,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#000000',
-    marginHorizontal: 16,
+    marginHorizontal: 2,
     minWidth: 24,
     textAlign: 'center',
   },
   descriptionSection: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
-    padding: 16,
+    padding: 10,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 2,
+    // shadowColor: '#000',
+    // shadowOffset: { width: 0, height: 1 },
+    // shadowOpacity: 0.04,
+    // shadowRadius: 4,
+    // elevation: 2,
   },
   descriptionTab: {
     alignSelf: 'flex-start',
-    paddingVertical: 8,
+    paddingVertical: 7,
     paddingHorizontal: 16,
-    borderRadius: 8,
+    borderRadius: 25,
     borderWidth: 2,
     borderColor: '#E6B800',
-    backgroundColor: '#FFF9E6',
+    backgroundColor: '#ffffff',
     marginBottom: 16,
   },
   descriptionTabText: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 16,
+    fontWeight: '700',
     color: '#000000',
+    lineHeight:20
   },
   detailLine: {
-    fontSize: 14,
+    fontSize: 12,
+    fontWeight:'400',
     color: '#000000',
-    marginBottom: 8,
+    marginBottom: 2,
     lineHeight: 20,
+    marginLeft:20,
   },
   disclaimerTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 12,
+    fontWeight: '400',
     color: '#000000',
     marginTop: 16,
     marginBottom: 8,
+    marginLeft:20,
   },
   disclaimerItem: {
     fontSize: 13,
     color: '#666666',
     lineHeight: 20,
     marginBottom: 8,
+    marginLeft:20,
   },
   bottomSpacer: {
     height: 24,
@@ -312,9 +319,9 @@ const styles = StyleSheet.create({
     borderTopColor: '#F0F0F0',
   },
   orderButton: {
-    backgroundColor: '#190152',
+    backgroundColor: '#FFB200',
     borderRadius: 8,
-    paddingVertical: 16,
+    paddingVertical: 9,
     alignItems: 'center',
     justifyContent: 'center',
   },

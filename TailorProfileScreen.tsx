@@ -17,11 +17,11 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
   ArrowLeft,
   Share2,
-  Check,
   Star,
   MapPin,
-  MessageCircle,
   ChevronRight,
+  BadgeCheck,
+  MessageSquareText,
 } from 'lucide-react-native';
 
 // const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -98,7 +98,7 @@ const TailorProfileScreen = () => {
               <Text style={styles.tailorName}>{tailorName}</Text>
               <View style={styles.verifiedBadge}>
                 <View style={styles.verifiedCheckWrap}>
-                  <Check size={12} color="#FFFFFF" strokeWidth={3} />
+                  <BadgeCheck size={12} color="#0466F9" strokeWidth={3} />
                 </View>
                 <Text style={styles.verifiedText}>Verified</Text>
               </View>
@@ -151,8 +151,8 @@ const TailorProfileScreen = () => {
                 <Star
                   key={i}
                   size={14}
-                  color="#000000"
-                  fill="#000000"
+                  color="#FFB200"
+                  fill="#FFB200"
                   strokeWidth={0}
                 />
               ))}
@@ -211,7 +211,7 @@ const TailorProfileScreen = () => {
       {/* Bottom bar - dark purple */}
       <View style={styles.bottomBar}>
         <TouchableOpacity style={styles.chatButton} onPress={handleChat}>
-          <MessageCircle size={24} color="#FFFFFF" strokeWidth={2} />
+          <MessageSquareText size={24} color="#000000" strokeWidth={2} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
           <Text style={styles.orderButtonText}>Order</Text>
@@ -224,7 +224,7 @@ const TailorProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E0F7EF',
+    backgroundColor: '#FFB200',
   },
   scrollView: {
     flex: 1,
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#E0F7EF',
+    backgroundColor: '#FFB200',
     paddingHorizontal: 16,
     paddingTop: 48,
     paddingBottom: 16,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     color: '#190152',
   },
   profileSection: {
-    backgroundColor: '#E0F7EF',
+    backgroundColor: '#FFB200',
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
@@ -287,17 +287,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    backgroundColor: '#60A5FA',
+    backgroundColor: '#FFD233',
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 12,
+    borderRadius: 52,
     marginBottom: 8,
   },
   verifiedCheckWrap: {
     marginRight: 4,
   },
   verifiedText: {
-    color: '#FFFFFF',
+    color: '#0466F9',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#E0F7EF',
+    backgroundColor: '#FFB200',
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   filterPillActive: {
-    backgroundColor: '#190152',
+    backgroundColor: '#FFB200',
   },
   filterPillText: {
     fontSize: 14,
@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#190152',
+    backgroundColor: '#ffffff',
     paddingHorizontal: 20,
     paddingVertical: 16,
     paddingBottom: 28,
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
   },
   orderButton: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: '#FFB200',
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',
