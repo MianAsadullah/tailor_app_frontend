@@ -259,11 +259,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 10,
     marginBottom: 20,
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    // shadowOpacity: 0.04,
-    // shadowRadius: 4,
-    // elevation: 2,
   },
   descriptionTab: {
     alignSelf: 'flex-start',
