@@ -10,6 +10,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+  useWindowDimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -75,6 +79,9 @@ const GoogleLogo = ({ size = 22, opacity = 1 }) => (
 );
 
 const LoginScreen = () => {
+  const { width, height } = useWindowDimensions();
+  const isSmallScreen = width < 360 || height < 700;
+
   const navigation = useNavigation<LoginScreenNavigationProp>();
   const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
@@ -105,11 +112,24 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoid}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingHorizontal: isSmallScreen ? 16 : 20 },
+        ]}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.title}>Login Account</Text>
+          <Text style={[styles.title, { fontSize: isSmallScreen ? 22 : 24 }]}>
+            Login Account
+          </Text>
           <View style={styles.userIcon}>
             <User size={28} color="#190152" strokeWidth={2} />
           </View>
@@ -123,13 +143,15 @@ const LoginScreen = () => {
       </View>
 
       {/* Welcome Message */}
-      <Text style={styles.welcomeText}>
+      <Text
+        style={[styles.welcomeText, { marginBottom: isSmallScreen ? 20 : 30 }]}
+      >
         Hello, welcome back to our account!
       </Text>
 
       {/* Logo Section */}
-      <View style={styles.logoContainer}>
-        <CourierLogo size={250} />
+      <View style={[styles.logoContainer, { marginBottom: isSmallScreen ? 20 : 30 }]}>
+        <CourierLogo size={isSmallScreen ? 210 : 250} />
       </View>
 
       {/* Login Method Tabs */}
@@ -247,16 +269,20 @@ const LoginScreen = () => {
           </Text>
         </Text>
       </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoid: {
     flex: 1,
     backgroundColor: '#ffffff',
-    paddingHorizontal: 20,
+  },
+  scrollContent: {
+    flexGrow: 1,
     paddingTop: 20,
+    paddingBottom: 20,
   },
   header: {
     flexDirection: 'row',

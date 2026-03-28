@@ -11,6 +11,10 @@ import {
   StyleSheet,
   ScrollView,
   Switch,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -69,24 +73,81 @@ const PaymentScreen = () => {
     : FALLBACK_ITEMS;
   const [rememberCard, setRememberCard] = useState(true);
   const [sendReceipt, setSendReceipt] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [cardholderName, setCardholderName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvv, setCvv] = useState('');
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
   const total = subtotal + SERVICE_FEE;
 
-  const accentPurple = '#4B0082';
-  const darkPurple = '#1A004C';
+  const accentOrange = '#FFB200';
+  // const darkPurple = '#DB640F';
+
+  const handleCardNumberChange = (value: string) => {
+    const digitsOnly = value.replace(/\D/g, '').slice(0, 16);
+    const formatted = digitsOnly.replace(/(\d{4})(?=\d)/g, '$1 ');
+    setCardNumber(formatted);
+  };
+
+  const handleExpiryChange = (value: string) => {
+    const digitsOnly = value.replace(/\D/g, '').slice(0, 4);
+    if (digitsOnly.length <= 2) {
+      setExpiry(digitsOnly);
+      return;
+    }
+    setExpiry(`${digitsOnly.slice(0, 2)}/${digitsOnly.slice(2)}`);
+  };
+
+  const handleCvvChange = (value: string) => {
+    setCvv(value.replace(/\D/g, '').slice(0, 4));
+  };
+
+  const handlePayNow = () => {
+    const cleanCardNumber = cardNumber.replace(/\s/g, '');
+    const isExpiryValid = /^((0[1-9])|(1[0-2]))\/\d{2}$/.test(expiry);
+
+    if (!paymentMethod.trim()) {
+      Alert.alert('Missing field', 'Please enter payment method.');
+      return;
+    }
+    if (!cardholderName.trim()) {
+      Alert.alert('Missing field', 'Please enter cardholder name.');
+      return;
+    }
+    if (cleanCardNumber.length < 13) {
+      Alert.alert('Invalid card number', 'Please enter a valid card number.');
+      return;
+    }
+    if (!isExpiryValid) {
+      Alert.alert('Invalid expiry', 'Please enter expiry as MM/YY.');
+      return;
+    }
+    if (cvv.length < 3) {
+      Alert.alert('Invalid CVV', 'Please enter a valid CVV.');
+      return;
+    }
+
+    navigation.navigate('Summary', {
+      items,
+    });
+  };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <View style={styles.headerBg}>
         <View style={styles.headerRow}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.backBtn}
           >
-            <ArrowLeft size={24} color={darkPurple} strokeWidth={2} />
+            <ArrowLeft size={24} color={'#ffffff'} strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Summary</Text>
+          <Text style={styles.headerTitle}>Payment</Text>
           <View style={styles.headerRight} />
         </View>
 
@@ -94,7 +155,7 @@ const PaymentScreen = () => {
           <View style={styles.stepperLineGray} />
           <View style={styles.stepperLinePurple} />
           <View style={[styles.stepDot, styles.stepDone]}>
-            <Check size={12} color="#FFFFFF" strokeWidth={3} />
+            <Check size={12} color="#FFB200" strokeWidth={3} />
           </View>
           <View style={styles.stepCurrent}>
             <View style={styles.stepCurrentInner} />
@@ -108,35 +169,74 @@ const PaymentScreen = () => {
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <View style={styles.formSection}>
           <Text style={styles.inputLabel}>Payment Method</Text>
           <View style={styles.inputBox}>
-            <CreditCard size={20} color={accentPurple} strokeWidth={2} />
+            <CreditCard size={20} color={accentOrange} strokeWidth={2} />
+            <TextInput
+              style={styles.inputText}
+              placeholder="Visa / MasterCard"
+              placeholderTextColor="#9CA3AF"
+              value={paymentMethod}
+              onChangeText={setPaymentMethod}
+            />
           </View>
 
           <Text style={styles.inputLabel}>Cardholder Name</Text>
           <View style={styles.inputBox}>
-            <User size={20} color={accentPurple} strokeWidth={2} />
+            <User size={20} color={accentOrange} strokeWidth={2} />
+            <TextInput
+              style={styles.inputText}
+              placeholder="Name on card"
+              placeholderTextColor="#9CA3AF"
+              autoCapitalize="words"
+              value={cardholderName}
+              onChangeText={setCardholderName}
+            />
           </View>
 
           <Text style={styles.inputLabel}>Cardnumber</Text>
           <View style={styles.inputBox}>
-            <CreditCard size={20} color={accentPurple} strokeWidth={2} />
+            <CreditCard size={20} color={accentOrange} strokeWidth={2} />
+            <TextInput
+              style={styles.inputText}
+              placeholder="1234 5678 9012 3456"
+              placeholderTextColor="#9CA3AF"
+              keyboardType="number-pad"
+              value={cardNumber}
+              onChangeText={handleCardNumberChange}
+            />
           </View>
 
           <View style={styles.rowTwo}>
             <View style={styles.halfField}>
               <Text style={styles.inputLabel}>Expiry</Text>
               <View style={styles.inputBox}>
-                <Calendar size={20} color={accentPurple} strokeWidth={2} />
-                <Text style={styles.placeholderText}>MM/YY</Text>
+                <Calendar size={20} color={accentOrange} strokeWidth={2} />
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="MM/YY"
+                  placeholderTextColor="#9CA3AF"
+                  keyboardType="number-pad"
+                  value={expiry}
+                  onChangeText={handleExpiryChange}
+                />
               </View>
             </View>
             <View style={styles.halfField}>
               <Text style={styles.inputLabel}>CVV</Text>
               <View style={styles.inputBox}>
-                <Text style={styles.placeholderCvv}>***</Text>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder="***"
+                  placeholderTextColor="#9CA3AF"
+                  keyboardType="number-pad"
+                  secureTextEntry
+                  value={cvv}
+                  onChangeText={handleCvvChange}
+                />
               </View>
             </View>
           </View>
@@ -145,7 +245,7 @@ const PaymentScreen = () => {
             <Switch
               value={rememberCard}
               onValueChange={setRememberCard}
-              trackColor={{ false: '#D1D5DB', true: accentPurple }}
+              trackColor={{ false: '#D1D5DB', true: accentOrange }}
               thumbColor="#FFFFFF"
             />
             <Text style={styles.toggleText}>Remember this card</Text>
@@ -155,7 +255,7 @@ const PaymentScreen = () => {
             <Switch
               value={sendReceipt}
               onValueChange={setSendReceipt}
-              trackColor={{ false: '#D1D5DB', true: accentPurple }}
+              trackColor={{ false: '#D1D5DB', true: accentOrange }}
               thumbColor="#FFFFFF"
             />
             <Text style={styles.toggleText}>Send receipt to my email</Text>
@@ -171,31 +271,27 @@ const PaymentScreen = () => {
 
         <TouchableOpacity
           style={styles.payBtn}
-          onPress={() =>
-            navigation.navigate('Summary', {
-              items,
-            })
-          }
+          onPress={handlePayNow}
         >
           <Text style={styles.payBtnText}>Pay Now</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
-const ACCENT_PURPLE = '#4B0082';
+const ACCENT_PURPLE = '#FFB200';
 const DARK_PURPLE = '#1A004C';
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
   headerBg: {
-    backgroundColor: '#C3EDE2',
+    backgroundColor: '#FFB200',
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
     paddingHorizontal: 20,
-    paddingTop: 48,
-    paddingBottom: 28,
+    paddingTop: 20,
+    paddingBottom: 78,
   },
   headerRow: {
     flexDirection: 'row',
@@ -207,7 +303,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: DARK_PURPLE,
+    color: '#ffffff',
   },
   headerRight: { width: 40 },
   stepperRow: {
@@ -230,14 +326,14 @@ const styles = StyleSheet.create({
     left: 24,
     width: '33%',
     height: 3,
-    backgroundColor: ACCENT_PURPLE,
+    backgroundColor: '#ffffff',
     top: 10,
   },
   stepDot: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: ACCENT_PURPLE,
+    backgroundColor: '#ffffff',
     borderWidth: 5,
     borderColor: '#FFFFFF',
     zIndex: 1,
@@ -308,6 +404,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 2,
   },
+  inputText: {
+    flex: 1,
+    fontSize: 15,
+    color: '#111827',
+    marginLeft: 10,
+    paddingVertical: 0,
+  },
   placeholderText: {
     fontSize: 15,
     color: '#9CA3AF',
@@ -356,18 +459,18 @@ const styles = StyleSheet.create({
   },
   finalText: {
     fontSize: 16,
-    fontWeight: '400',
-    color: DARK_PURPLE,
+    fontWeight: '700',
+    color: '#000000',
   },
   finalPrice: {
     fontSize: 16,
     fontWeight: '600',
-    color: DARK_PURPLE,
+    color: '#FFB200',
   },
   payBtn: {
     backgroundColor: ACCENT_PURPLE,
-    borderRadius: 14,
-    paddingVertical: 16,
+    borderRadius: 10,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },

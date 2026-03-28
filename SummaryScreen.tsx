@@ -47,7 +47,7 @@ const SERVICE_FEE = 3988;
 const formatRupiah = (value: number) =>
   `Rp${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
 
-const ACCENT = '#3A1078';
+const ACCENT = '#FFB200';
 
 const SummaryScreen = () => {
   const navigation = useNavigation<SummaryNavigationProp>();
@@ -67,7 +67,7 @@ const SummaryScreen = () => {
             onPress={() => navigation.goBack()}
             style={styles.backBtn}
           >
-            <ArrowLeft size={24} color={ACCENT} strokeWidth={2} />
+            <ArrowLeft size={24} color={'#FFFFFF'} strokeWidth={2} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Summary</Text>
           <View style={styles.headerRight} />
@@ -76,7 +76,7 @@ const SummaryScreen = () => {
         <View style={styles.stepperRow}>
           <View style={styles.stepperLine} />
           <View style={[styles.stepDot, styles.stepDone]}>
-            <Check size={12} color="#FFFFFF" strokeWidth={3} />
+            <Check size={12} color={ACCENT} strokeWidth={3} />
           </View>
           <View style={[styles.stepCurrent]}>
             <View style={styles.stepCurrentInner} />
@@ -136,12 +136,12 @@ const SummaryScreen = () => {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
   headerBg: {
-    backgroundColor: '#E0FAF8',
+    backgroundColor: '#FFB200',
     borderBottomLeftRadius: 32,
     borderBottomRightRadius: 32,
     paddingHorizontal: 20,
-    paddingTop: 48,
-    paddingBottom: 24,
+    paddingTop: 20,
+    paddingBottom: 78,
   },
   headerRow: {
     flexDirection: 'row',
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backBtn: { padding: 8, minWidth: 40 },
-  headerTitle: { fontSize: 22, fontWeight: '700', color: ACCENT },
+  headerTitle: { fontSize: 22, fontWeight: '700', color: '#FFFFFF' },
   headerRight: { width: 40 },
   stepperRow: {
     flexDirection: 'row',
@@ -164,14 +164,14 @@ const styles = StyleSheet.create({
     left: 24,
     right: 24,
     height: 3,
-    backgroundColor: ACCENT,
+    backgroundColor: '#F3F4F4',
     top: 10,
   },
   stepDot: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: ACCENT,
+    backgroundColor: '#ffffff',
     borderWidth: 5,
     borderColor: '#FFFFFF',
     zIndex: 1,
@@ -181,8 +181,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: ACCENT,
-    borderWidth: 5,
+    backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
@@ -295,12 +294,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  finalText: { fontSize: 18, fontWeight: '700', color: '#000000' },
-  finalPrice: { fontSize: 22, fontWeight: '700', color: ACCENT },
+  finalText: { fontSize: 16, fontWeight: '700', color: '#000000' },
+  finalPrice: { fontSize: 14, fontWeight: '700', color: '#DB640F' },
   payBtn: {
     backgroundColor: ACCENT,
-    borderRadius: 16,
-    paddingVertical: 16,
+    borderRadius: 10,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
