@@ -19,6 +19,7 @@ import ProductDetailsScreen from './ProductDetailsScreen';
 import TailorProfileScreen from './TailorProfileScreen';
 import PaymentScreen from './PaymentScreen';
 import SummaryScreen from './SummaryScreen';
+import NotificationScreen from './NotificationScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -36,6 +37,7 @@ export type RootStackParamList = {
   Summary: {
     items: Array<{ id: string; name: string; price: number; qty: number }>;
   };
+  Notification: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,7 +47,7 @@ function App() {
     <SafeAreaProvider>
       <StatusBar 
         barStyle="dark-content" 
-        backgroundColor="#E0F7EF" 
+        backgroundColor="#FFB200" 
         translucent={false}
       />
       <NavigationContainer>
@@ -67,6 +69,7 @@ function App() {
           <Stack.Screen name="TailorProfile" component={TailorProfileScreen} />
           <Stack.Screen name="Payment" component={PaymentScreen} />
           <Stack.Screen name="Summary" component={SummaryScreen} />
+          <Stack.Screen name="Notification" component={NotificationScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

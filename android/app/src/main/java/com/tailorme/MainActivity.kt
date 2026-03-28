@@ -1,11 +1,25 @@
 package com.tailorme
 
+import android.graphics.Color
+import android.os.Build
+import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
 
 class MainActivity : ReactActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    window.navigationBarColor = Color.WHITE
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      @Suppress("DEPRECATION")
+      window.decorView.systemUiVisibility =
+          window.decorView.systemUiVisibility or ViewFlags.LIGHT_NAVIGATION_BAR
+    }
+  }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
@@ -19,4 +33,9 @@ class MainActivity : ReactActivity() {
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
       DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+}
+
+private object ViewFlags {
+  // Keep constant local to avoid depending on deprecated APIs directly in logic.
+  const val LIGHT_NAVIGATION_BAR = 0x00000010
 }
