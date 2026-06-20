@@ -49,7 +49,7 @@ const screenStatusBarConfig: Record<
   Splash: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
   Login: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
   SignUp: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
-  OTP: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
+  OTP: { barStyle: 'light-content', backgroundColor: '#FFB200' },
   ForgotPassword: { barStyle: 'dark-content', backgroundColor: '#F6F6F6' },
   Home: { barStyle: 'light-content', backgroundColor: '#FFB200' },
   EditProfile: { barStyle: 'light-content', backgroundColor: '#FFB200' },
@@ -80,7 +80,36 @@ function App() {
           initialRouteName="Splash"
           screenOptions={{
             headerShown: false,
-            animation: 'fade',
+            animationEnabled: true,
+            animationTypeForReplace: 'pop',
+            cardStyleInterpolator: ({ current, layouts }) => {
+              return {
+                cardStyle: {
+                  transform: [
+                    {
+                      translateX: current.progress.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [layouts.screen.width, 0],
+                      }),
+                    },
+                  ],
+                },
+              };
+            },
+            transitionSpec: {
+              open: {
+                animation: 'timing',
+                config: {
+                  duration: 500,
+                },
+              },
+              close: {
+                animation: 'timing',
+                config: {
+                  duration: 500,
+                },
+              },
+            },
           }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />
