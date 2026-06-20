@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useLanguage } from './LanguageContext';
 import ForgotPasswordSvg from './img/forgot_password.svg';
 import { ArrowLeft } from 'lucide-react-native';
 
@@ -66,6 +67,7 @@ const ForgotPasswordIcon = ({ size = 180, opacity = 1 }) => (
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation<ForgotPasswordScreenNavigationProp>();
+  const { t } = useLanguage();
   const [phone, setPhone] = useState('');
 
   const handleContinue = () => {
@@ -97,17 +99,14 @@ const ForgotPasswordScreen = () => {
 
         {/* Content - Lower half */}
         <View style={styles.content}>
-          <Text style={styles.title}>Forgot</Text>
-          <Text style={styles.title}>Password?</Text>
+          <Text style={styles.title}>{t('forgotTitle')}</Text>
+          <Text style={styles.title}>{t('passwordQuestion')}</Text>
 
-          <Text style={styles.description}>
-            Don't worry ! It happens. Please enter the phone number we will send
-            the OTP in this phone number.
-          </Text>
+          <Text style={styles.description}>{t('forgotPasswordDescription')}</Text>
 
           <TextInput
             style={styles.input}
-            placeholder="Enter the phone Number"
+            placeholder={t('enterPhoneNumberForOtp')}
             placeholderTextColor="#999"
             keyboardType="phone-pad"
             value={phone}
@@ -118,7 +117,7 @@ const ForgotPasswordScreen = () => {
             style={styles.continueButton}
             onPress={handleContinue}
           >
-            <Text style={styles.continueButtonText}>Continue</Text>
+            <Text style={styles.continueButtonText}>{t('continue')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

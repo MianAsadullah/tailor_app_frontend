@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useLanguage } from './LanguageContext';
 import Otp1Svg from './img/otp1.svg';
 import { ArrowLeft } from 'lucide-react-native';
 
@@ -67,6 +68,7 @@ const Otp1Icon = ({ size = 140, opacity = 1 }) => (
 const OTPScreen = () => {
   const navigation = useNavigation<OTPScreenNavigationProp>();
   const route = useRoute<OTPScreenRouteProp>();
+  const { t } = useLanguage();
   const phone = route.params?.phone || '';
 
   const [otp, setOtp] = useState<string[]>(['', '', '', '']);
@@ -151,9 +153,9 @@ const OTPScreen = () => {
 
       {/* Content - Mint green section */}
       <View style={styles.content}>
-        <Text style={styles.title}>OTP VERIFICATION</Text>
+        <Text style={styles.title}>{t('otpVerification')}</Text>
         <Text style={styles.instruction}>
-          Enter the OTP sent to -{' '}
+          {t('enterOtpInstruction')}{' '}
           <Text style={styles.phoneBold}>{displayPhone}</Text>
         </Text>
 
@@ -178,17 +180,17 @@ const OTPScreen = () => {
         <Text style={styles.timer}>{formatTime(timer)}</Text>
 
         <Text style={styles.resendText}>
-          Don't receive code?{' '}
+          {t('resendCode')}{' '}
           <Text
             style={[styles.resendLink, !canResend && styles.resendDisabled]}
             onPress={handleResend}
           >
-            Re-send
+            {t('resend')}
           </Text>
         </Text>
 
         <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-          <Text style={styles.submitButtonText}>Submit</Text>
+          <Text style={styles.submitButtonText}>{t('submit')}</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

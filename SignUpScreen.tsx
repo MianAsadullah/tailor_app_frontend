@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useLanguage } from './LanguageContext';
 import Courier2Svg from './img/courier2.svg';
 // import { ArrowLeft } from 'lucide-react-native';
 
@@ -64,6 +65,7 @@ const CourierLogo = ({ size = 60, opacity = 1 }) => (
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -97,9 +99,9 @@ const SignUpScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Sign up!</Text>
+          <Text style={styles.title}>{t('signUpTitle')}</Text>
           <Text style={styles.instruction}>
-            Create account by filling the form below.
+            {t('signUpInstruction')}
           </Text>
         </View>
 
@@ -110,7 +112,7 @@ const SignUpScreen = () => {
         <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Enter name"
+            placeholder={t('enterName')}
             placeholderTextColor="#999"
             value={formData.name}
             onChangeText={value => handleInputChange('name', value)}
@@ -118,7 +120,7 @@ const SignUpScreen = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Enter email"
+            placeholder={t('enterEmail')}
             placeholderTextColor="#999"
             keyboardType="email-address"
             autoCapitalize="none"
@@ -128,7 +130,7 @@ const SignUpScreen = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Enter phone number"
+            placeholder={t('enterPhoneNumber')}
             placeholderTextColor="#999"
             keyboardType="phone-pad"
             value={formData.phone}
@@ -137,7 +139,7 @@ const SignUpScreen = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder={t('passwordPlaceholder')}
             placeholderTextColor="#999"
             secureTextEntry
             value={formData.password}
@@ -146,7 +148,7 @@ const SignUpScreen = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Enter pan number"
+            placeholder={t('enterPanNumber')}
             placeholderTextColor="#999"
             autoCapitalize="characters"
             value={formData.panNumber}
@@ -155,7 +157,7 @@ const SignUpScreen = () => {
 
           <TextInput
             style={styles.input}
-            placeholder="Residential Address"
+            placeholder={t('residentialAddress')}
             placeholderTextColor="#999"
             multiline
             numberOfLines={3}
@@ -167,15 +169,15 @@ const SignUpScreen = () => {
             style={styles.createButton}
             onPress={handleCreateAccount}
           >
-            <Text style={styles.createButtonText}>Create Account</Text>
+            <Text style={styles.createButtonText}>{t('createAccountBtn')}</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.footer}>
           <Text style={styles.footerText}>
-            Do you have already have account?{' '}
+            {t('alreadyHaveAccount')}{' '}
             <Text style={styles.loginLink} onPress={handleLogin}>
-              LOGIN
+              {t('loginUpper')}
             </Text>
           </Text>
         </View>

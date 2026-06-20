@@ -6,6 +6,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useLanguage } from './LanguageContext';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ArrowLeft, Check } from 'lucide-react-native';
 
@@ -50,6 +51,7 @@ const formatRupiah = (value: number) =>
 const ACCENT = '#FFB200';
 
 const SummaryScreen = () => {
+  const { t } = useLanguage();
   const navigation = useNavigation<SummaryNavigationProp>();
   const route = useRoute<SummaryRouteProp>();
   const items = route.params?.items?.length
@@ -69,7 +71,7 @@ const SummaryScreen = () => {
           >
             <ArrowLeft size={24} color={'#FFFFFF'} strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Summary</Text>
+          <Text style={styles.headerTitle}>{t('summary')}</Text>
           <View style={styles.headerRight} />
         </View>
 
@@ -87,7 +89,7 @@ const SummaryScreen = () => {
 
       <View style={styles.content}>
         <View style={styles.summaryCard}>
-          <Text style={styles.cardTitle}>Summary</Text>
+          <Text style={styles.cardTitle}>{t('summary')}</Text>
 
           <View style={styles.itemsList}>
             {items.map(item => (
@@ -103,15 +105,15 @@ const SummaryScreen = () => {
           <View style={styles.cardDivider} />
 
           <View style={styles.priceRow}>
-            <Text style={styles.priceLabel}>Subtotal</Text>
+            <Text style={styles.priceLabel}>{t('subtotal')}</Text>
             <Text style={styles.priceValue}>{formatRupiah(subtotal)}</Text>
           </View>
           <View style={styles.priceRow}>
-            <Text style={styles.priceLabel}>Services Fee</Text>
+            <Text style={styles.priceLabel}>{t('servicesFee')}</Text>
             <Text style={styles.priceValue}>{formatRupiah(SERVICE_FEE)}</Text>
           </View>
           <View style={styles.priceRow}>
-            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalLabel}>{t('total')}</Text>
             <Text style={styles.totalValue}>{formatRupiah(total)}</Text>
           </View>
         </View>
@@ -120,12 +122,12 @@ const SummaryScreen = () => {
           <View style={styles.bottomLine} />
 
           <View style={styles.finalRow}>
-            <Text style={styles.finalText}>Total price</Text>
+            <Text style={styles.finalText}>{t('totalPrice')}</Text>
             <Text style={styles.finalPrice}>{formatRupiah(total)}</Text>
           </View>
 
           <TouchableOpacity style={styles.payBtn}>
-            <Text style={styles.payBtnText}>Pay Now</Text>
+            <Text style={styles.payBtnText}>{t('payNow')}</Text>
           </TouchableOpacity>
         </View>
       </View>

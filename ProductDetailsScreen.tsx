@@ -12,6 +12,7 @@ import {
   ScrollView,
   // Dimensions,
 } from 'react-native';
+import { useLanguage } from './LanguageContext';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ArrowLeft, Star, Minus, Plus } from 'lucide-react-native';
@@ -47,6 +48,8 @@ const ProductDetailsScreen = () => {
     navigation.goBack();
   };
 
+  const { t } = useLanguage();
+
   return (
     <View style={styles.container}>
       {/* Top: Light teal curved header */}
@@ -55,7 +58,7 @@ const ProductDetailsScreen = () => {
           <TouchableOpacity style={styles.backButton} onPress={handleBack}>
             <ArrowLeft size={24} color="#190152" strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Product Details</Text>
+          <Text style={styles.headerTitle}>{t('productDetails')}</Text>
           <View style={styles.headerRight} />
         </View>
       </View>
@@ -97,7 +100,7 @@ const ProductDetailsScreen = () => {
         {/* Description section */}
         <View style={styles.descriptionSection}>
           <View style={styles.descriptionTab}>
-            <Text style={styles.descriptionTabText}>Description</Text>
+            <Text style={styles.descriptionTabText}>{t('description')}</Text>
           </View>
           <Text style={styles.detailLine}>Bahan : sutra Baron</Text>
           <Text style={styles.detailLine}>Ukuran: 2.60 X 1.10</Text>
@@ -105,7 +108,7 @@ const ProductDetailsScreen = () => {
             Menerima jasa jahit kualitas butik
           </Text>
 
-          <Text style={styles.disclaimerTitle}>DISCLAIMER</Text>
+          <Text style={styles.disclaimerTitle}>{t('disclaimer')}</Text>
           <Text style={styles.disclaimerItem}>
             1. Produk dalam bentuk kain, baju diatas merupakan ilustrasi yang
             diciptakan untuk membantu anda mengvisualisasikan hasil akhir kain
@@ -123,7 +126,7 @@ const ProductDetailsScreen = () => {
       {/* Order button - fixed at bottom */}
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-          <Text style={styles.orderButtonText}>Order</Text>
+          <Text style={styles.orderButtonText}>{t('orderBtn')}</Text>
         </TouchableOpacity>
       </View>
     </View>

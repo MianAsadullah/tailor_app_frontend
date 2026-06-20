@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useLanguage, Language } from './LanguageContext';
 // import SewingMachineSvg from './img/sewing-machine.svg';
 import Courier2Svg from './img/courier2.svg';
 import GoogleLogoSvg from './img/googleLogo.svg';
@@ -83,10 +84,12 @@ const LoginScreen = () => {
   const isSmallScreen = width < 360 || height < 700;
 
   const navigation = useNavigation<LoginScreenNavigationProp>();
+  const { language, setLanguage, t } = useLanguage();
   const [loginMethod, setLoginMethod] = useState<'email' | 'phone'>('email');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [showLanguageOptions, setShowLanguageOptions] = useState(false);
 
   const handleLogin = () => {
     console.log('Login:', { loginMethod, email, phone, password });
@@ -128,32 +131,50 @@ const LoginScreen = () => {
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <Text style={[styles.title, { fontSize: isSmallScreen ? 22 : 24 }]}>
-            Login Account
+            {t('loginAccount')}
           </Text>
           <View style={styles.userIcon}>
             <User size={28} color="#190152" strokeWidth={2} />
           </View>
         </View>
-        <TouchableOpacity style={styles.flagContainer}>
-          <View style={styles.flagIcon}>
-            <Globe size={22} color="#190152" strokeWidth={2} />
-          </View>
-          <ChevronDown size={18} color="#190152" strokeWidth={2} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Welcome Message */}
-      <Text
-        style={[styles.welcomeText, { marginBottom: isSmallScreen ? 20 : 30 }]}
-      >
-        Hello, welcome back to our account!
-      </Text>
-
-      {/* Logo Section */}
+        <View style={styles.flagContainer}>
+          <TouchableOpacity
+            style={styles.flagContainer}
+            onPress={() => setShowLanguageOptions((prev) => !prev)}
+            activeOpacity={0.8}
+          >
+            <View style={styles.flagIcon}>
+              <Globe size={22} color="#190152" strokeWidth={2} />
+            </View>
+            <Text style={styles.languageText}>
+              {language === 'English' ? t('languageEnglish') : t('languageUrdu')}
+            </Text>
+            <ChevronDown size={18} color="#190152" strokeWidth={2} />
+          </TouchableOpacity>
+          {showLanguageOptions && (
+            <View style={styles.languageDropdown}>
+              {(['English', 'Urdu'] as Language[]).map((option) => (
+                <TouchableOpacity
+                  key={option}
+                  style={styles.languageOption}
+                  onPress={() => {
+                    setLanguage(option);
+                    setShowLanguageOptions(false);
+                  }}
+                >
+                  <Text style={styles.languageOptionText}>
+                    {option === 'English' ? t('languageEnglish') : t('languageUrdu')}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
+        </View>
       <View style={[styles.logoContainer, { marginBottom: isSmallScreen ? 20 : 30 }]}>
         <CourierLogo size={isSmallScreen ? 210 : 250} />
       </View>
-
+      <Text style={styles.welcomeText}>{t('loginWelcome')}</Text>
       {/* Login Method Tabs */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
@@ -170,7 +191,7 @@ const LoginScreen = () => {
               loginMethod === 'email' && styles.tabTextActive,
             ]}
           >
-            Email
+            {t('emailTab')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -187,7 +208,7 @@ const LoginScreen = () => {
               loginMethod === 'phone' && styles.tabTextActive,
             ]}
           >
-            Phone Number
+            {t('phoneNumberTab')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -198,7 +219,7 @@ const LoginScreen = () => {
           <>
             <TextInput
               style={styles.input}
-              placeholder="Email address"
+              placeholder={t('emailAddressPlaceholder')}
               placeholderTextColor="#999"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -208,7 +229,7 @@ const LoginScreen = () => {
             <View style={styles.passwordContainer}>
               <TextInput
                 style={[styles.input, styles.passwordInput]}
-                placeholder="Password"
+                placeholder={t('passwordPlaceholder')}
                 placeholderTextColor="#999"
                 secureTextEntry
                 value={password}
@@ -218,18 +239,18 @@ const LoginScreen = () => {
                 style={styles.forgotPasswordLink}
                 onPress={handleForgotPassword}
               >
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+                <Text style={styles.forgotPasswordText}>{t('forgotPassword')}</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-              <Text style={styles.loginButtonText}>Login</Text>
+              <Text style={styles.loginButtonText}>{t('login')}</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
             <TextInput
               style={styles.input}
-              placeholder="Enter Phone Number"
+              placeholder={t('phoneNumberPlaceholder')}
               placeholderTextColor="#999"
               keyboardType="phone-pad"
               value={phone}
@@ -239,7 +260,7 @@ const LoginScreen = () => {
               style={styles.loginButton}
               onPress={handleSendOtp}
             >
-              <Text style={styles.loginButtonText}>Send OTP</Text>
+              <Text style={styles.loginButtonText}>{t('sendOtp')}</Text>
             </TouchableOpacity>
           </>
         )}
@@ -248,7 +269,7 @@ const LoginScreen = () => {
       {/* Social Login Separator */}
       <View style={styles.separatorContainer}>
         <View style={styles.separatorLine} />
-        <Text style={styles.separatorText}>Or sign up with</Text>
+        <Text style={styles.separatorText}>{t('orSignUpWith')}</Text>
         <View style={styles.separatorLine} />
       </View>
 
@@ -257,15 +278,15 @@ const LoginScreen = () => {
         <View style={styles.googleIconWrap}>
           <GoogleLogo size={22} />
         </View>
-        <Text style={styles.googleText}>Google</Text>
+        <Text style={styles.googleText}>{t('google')}</Text>
       </TouchableOpacity>
 
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Not register yet?{' '}
+          {t('noAccountYet')}{' '}
           <Text style={styles.createAccountLink} onPress={handleCreateAccount}>
-            Create Account
+            {t('createAccount')}
           </Text>
         </Text>
       </View>
@@ -312,6 +333,7 @@ const styles = StyleSheet.create({
   flagContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    position: 'relative',
   },
   flagIcon: {
     width: 32,
@@ -320,6 +342,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 4,
+  },
+  languageText: {
+    fontSize: 14,
+    color: '#190152',
+    marginRight: 4,
+  },
+  languageDropdown: {
+    position: 'absolute',
+    top: 44,
+    right: 0,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    borderRadius: 8,
+    overflow: 'hidden',
+    zIndex: 10,
+    minWidth: 120,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  languageOption: {
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  languageOptionText: {
+    fontSize: 14,
+    color: '#190152',
   },
   flagEmoji: {
     fontSize: 20,

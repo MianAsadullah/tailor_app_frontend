@@ -6,7 +6,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useLanguage } from './LanguageContext';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { TranslationKey } from './LanguageContext';
 import { ArrowLeft, Bell } from 'lucide-react-native';
 
 type RootStackParamList = {
@@ -33,22 +35,29 @@ type NotificationNavigationProp = NativeStackNavigationProp<
   'Notification'
 >;
 
-const NOTIFICATIONS = [
+type NotificationItem = {
+  id: string;
+  titleKey: TranslationKey;
+  message: string;
+  time: string;
+};
+
+const NOTIFICATIONS: NotificationItem[] = [
   {
     id: '1',
-    title: 'Order accepted',
+    titleKey: 'orderAccepted',
     message: 'Rumah Mode Edelweis accepted your order request.',
     time: '5 min ago',
   },
   {
     id: '2',
-    title: 'Payment reminder',
+    titleKey: 'paymentReminder',
     message: 'Please complete payment for your latest cart.',
     time: '30 min ago',
   },
   {
     id: '3',
-    title: 'New promo available',
+    titleKey: 'newPromoAvailable',
     message: 'Get 10% discount for your next tailoring order.',
     time: 'Today',
   },
@@ -57,6 +66,8 @@ const NOTIFICATIONS = [
 const NotificationScreen = () => {
   const navigation = useNavigation<NotificationNavigationProp>();
 
+  const { t } = useLanguage();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerBg}>
@@ -64,7 +75,7 @@ const NotificationScreen = () => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
             <ArrowLeft size={24} color="#ffffff" strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Notifications</Text>
+          <Text style={styles.headerTitle}>{t('notifications')}</Text>
           <View style={styles.headerRight} />
         </View>
       </View>
@@ -79,7 +90,7 @@ const NotificationScreen = () => {
               <Bell size={18} color="#FFB200" strokeWidth={2} />
             </View>
             <View style={styles.textWrap}>
-              <Text style={styles.notificationTitle}>{item.title}</Text>
+              <Text style={styles.notificationTitle}>{t(item.titleKey)}</Text>
               <Text style={styles.notificationMessage}>{item.message}</Text>
               <Text style={styles.notificationTime}>{item.time}</Text>
             </View>

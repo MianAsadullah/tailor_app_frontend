@@ -16,6 +16,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { useLanguage } from './LanguageContext';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -66,6 +67,7 @@ const formatRupiah = (value: number) =>
   `Rp${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
 
 const PaymentScreen = () => {
+  const { t } = useLanguage();
   const navigation = useNavigation<PaymentNavigationProp>();
   const route = useRoute<PaymentRouteProp>();
   const items = route.params?.items?.length
@@ -147,7 +149,7 @@ const PaymentScreen = () => {
           >
             <ArrowLeft size={24} color={'#ffffff'} strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Payment</Text>
+          <Text style={styles.headerTitle}>{t('payment')}</Text>
           <View style={styles.headerRight} />
         </View>
 
@@ -172,24 +174,24 @@ const PaymentScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.formSection}>
-          <Text style={styles.inputLabel}>Payment Method</Text>
+          <Text style={styles.inputLabel}>{t('paymentMethod')}</Text>
           <View style={styles.inputBox}>
             <CreditCard size={20} color={accentOrange} strokeWidth={2} />
             <TextInput
               style={styles.inputText}
-              placeholder="Visa / MasterCard"
+              placeholder={t('visaMastercard')}
               placeholderTextColor="#9CA3AF"
               value={paymentMethod}
               onChangeText={setPaymentMethod}
             />
           </View>
 
-          <Text style={styles.inputLabel}>Cardholder Name</Text>
+          <Text style={styles.inputLabel}>{t('cardholderName')}</Text>
           <View style={styles.inputBox}>
             <User size={20} color={accentOrange} strokeWidth={2} />
             <TextInput
               style={styles.inputText}
-              placeholder="Name on card"
+              placeholder={t('nameOnCard')}
               placeholderTextColor="#9CA3AF"
               autoCapitalize="words"
               value={cardholderName}
@@ -197,7 +199,7 @@ const PaymentScreen = () => {
             />
           </View>
 
-          <Text style={styles.inputLabel}>Cardnumber</Text>
+          <Text style={styles.inputLabel}>{t('cardnumber')}</Text>
           <View style={styles.inputBox}>
             <CreditCard size={20} color={accentOrange} strokeWidth={2} />
             <TextInput
@@ -212,7 +214,7 @@ const PaymentScreen = () => {
 
           <View style={styles.rowTwo}>
             <View style={styles.halfField}>
-              <Text style={styles.inputLabel}>Expiry</Text>
+              <Text style={styles.inputLabel}>{t('expiry')}</Text>
               <View style={styles.inputBox}>
                 <Calendar size={20} color={accentOrange} strokeWidth={2} />
                 <TextInput
@@ -226,7 +228,7 @@ const PaymentScreen = () => {
               </View>
             </View>
             <View style={styles.halfField}>
-              <Text style={styles.inputLabel}>CVV</Text>
+              <Text style={styles.inputLabel}>{t('cvv')}</Text>
               <View style={styles.inputBox}>
                 <TextInput
                   style={styles.inputText}
@@ -248,7 +250,7 @@ const PaymentScreen = () => {
               trackColor={{ false: '#D1D5DB', true: accentOrange }}
               thumbColor="#FFFFFF"
             />
-            <Text style={styles.toggleText}>Remember this card</Text>
+            <Text style={styles.toggleText}>{t('rememberThisCard')}</Text>
           </View>
 
           <View style={styles.toggleRow}>
@@ -258,14 +260,14 @@ const PaymentScreen = () => {
               trackColor={{ false: '#D1D5DB', true: accentOrange }}
               thumbColor="#FFFFFF"
             />
-            <Text style={styles.toggleText}>Send receipt to my email</Text>
+            <Text style={styles.toggleText}>{t('sendReceiptEmail')}</Text>
           </View>
         </View>
 
         <View style={styles.bottomLine} />
 
         <View style={styles.finalRow}>
-          <Text style={styles.finalText}>Total price</Text>
+          <Text style={styles.finalText}>{t('totalPrice')}</Text>
           <Text style={styles.finalPrice}>{formatRupiah(total)}</Text>
         </View>
 
@@ -273,7 +275,7 @@ const PaymentScreen = () => {
           style={styles.payBtn}
           onPress={handlePayNow}
         >
-          <Text style={styles.payBtnText}>Pay Now</Text>
+          <Text style={styles.payBtnText}>{t('payNow')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

@@ -12,6 +12,7 @@ import {
   ScrollView,
   // Dimensions,
 } from 'react-native';
+import { useLanguage } from './LanguageContext';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
@@ -54,6 +55,7 @@ const SERVICES = [
 const COLLECTION_FILTERS = ['Pakaian', 'Aksesoris', 'Bahan', 'Wearable'];
 
 const TailorProfileScreen = () => {
+  const { t } = useLanguage();
   const navigation = useNavigation<TailorProfileNavigationProp>();
   const route = useRoute<TailorProfileRouteProp>();
   const tailorName = route.params?.tailorName || 'El Modiste';
@@ -82,7 +84,7 @@ const TailorProfileScreen = () => {
           <TouchableOpacity style={styles.headerButton} onPress={handleBack}>
             <ArrowLeft size={24} color="#190152" strokeWidth={2} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Profile</Text>
+          <Text style={styles.headerTitle}>{t('profile')}</Text>
           <TouchableOpacity style={styles.headerButton} onPress={handleShare}>
             <Share2 size={24} color="#190152" strokeWidth={2} />
           </TouchableOpacity>
@@ -100,7 +102,7 @@ const TailorProfileScreen = () => {
                 <View style={styles.verifiedCheckWrap}>
                   <BadgeCheck size={12} color="#0466F9" strokeWidth={3} />
                 </View>
-                <Text style={styles.verifiedText}>Verified</Text>
+                <Text style={styles.verifiedText}>{t('verified')}</Text>
               </View>
               <View style={styles.ratingLineRow}>
                 <Star
@@ -111,7 +113,7 @@ const TailorProfileScreen = () => {
                 />
                 <Text style={styles.ratingLine}>
                   {' '}
-                  5 | Home Service | Drop Off
+                  5 | {t('homeService')} | {t('dropOff')}
                 </Text>
               </View>
               <View style={styles.locationLineRow}>
@@ -127,22 +129,22 @@ const TailorProfileScreen = () => {
           {/* Description */}
           <View style={styles.block}>
             <View style={styles.blockHeader}>
-              <Text style={styles.blockTitle}>Description</Text>
+              <Text style={styles.blockTitle}>{t('description')}</Text>
               <TouchableOpacity>
-                <Text style={styles.lihatSemua}>Lihat Semua</Text>
+                <Text style={styles.lihatSemua}>{t('seeAll')}</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.descriptionText}>
-              For all your sewing needs
+              {t('tailorProfileDescription')}
             </Text>
           </View>
 
           {/* Nilai & Ulasan */}
           <View style={styles.block}>
             <View style={styles.blockHeader}>
-              <Text style={styles.blockTitle}>Nilai & Ulasan</Text>
+              <Text style={styles.blockTitle}>{t('ratingsReviews')}</Text>
               <TouchableOpacity>
-                <Text style={styles.lihatSemua}>Lihat Semua</Text>
+                <Text style={styles.lihatSemua}>{t('seeAll')}</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.reviewerName}>Arista</Text>
@@ -166,7 +168,7 @@ const TailorProfileScreen = () => {
 
           {/* Jasa Jahit & Permak */}
           <View style={styles.block}>
-            <Text style={styles.blockTitle}>Jasa Jahit & Permak</Text>
+            <Text style={styles.blockTitle}>{t('tailoringServices')}</Text>
             {SERVICES.map(service => (
               <TouchableOpacity key={service.id} style={styles.serviceCard}>
                 <View style={styles.serviceLeft}>
@@ -180,7 +182,7 @@ const TailorProfileScreen = () => {
 
           {/* Koleksi */}
           <View style={styles.block}>
-            <Text style={styles.blockTitle}>Koleksi {tailorName}</Text>
+            <Text style={styles.blockTitle}>{t('collection')} {tailorName}</Text>
             <View style={styles.filterRow}>
               {COLLECTION_FILTERS.map(filter => (
                 <TouchableOpacity
@@ -214,7 +216,7 @@ const TailorProfileScreen = () => {
           <MessageSquareText size={24} color="#000000" strokeWidth={2} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-          <Text style={styles.orderButtonText}>Order</Text>
+          <Text style={styles.orderButtonText}>{t('orderBtn')}</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -8,6 +8,7 @@ import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { LanguageProvider } from './LanguageContext';
 import SplashScreen from './SplashScreen';
 import LoginScreen from './LoginScreen';
 import SignUpScreen from './SignUpScreen';
@@ -53,7 +54,7 @@ const screenStatusBarConfig: Record<
   ForgotPassword: { barStyle: 'dark-content', backgroundColor: '#F6F6F6' },
   Home: { barStyle: 'light-content', backgroundColor: '#FFB200' },
   EditProfile: { barStyle: 'light-content', backgroundColor: '#FFB200' },
-  ProductDetails: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
+  ProductDetails: { barStyle: 'light-content', backgroundColor: '#FFB200' },
   TailorProfile: { barStyle: 'light-content', backgroundColor: '#FFB200' },
   Payment: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
   Summary: { barStyle: 'dark-content', backgroundColor: '#FFFFFF' },
@@ -66,50 +67,23 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={statusBarStyle} backgroundColor={statusBarBg} translucent={false} />
-      <NavigationContainer
-        onStateChange={(state) => {
-          const routeName = state?.routes[state.index]?.name as keyof RootStackParamList | undefined;
-          if (routeName && screenStatusBarConfig[routeName]) {
-            setStatusBarStyle(screenStatusBarConfig[routeName].barStyle);
-            setStatusBarBg(screenStatusBarConfig[routeName].backgroundColor);
-          }
-        }}
-      >
+      <LanguageProvider>
+        <StatusBar barStyle={statusBarStyle} backgroundColor={statusBarBg} translucent={false} />
+          <NavigationContainer
+          onStateChange={(state) => {
+            const routeName = state?.routes[state.index]?.name as keyof RootStackParamList | undefined;
+            if (routeName && screenStatusBarConfig[routeName]) {
+              setStatusBarStyle(screenStatusBarConfig[routeName].barStyle);
+              setStatusBarBg(screenStatusBarConfig[routeName].backgroundColor);
+            }
+          }}
+        >
         <Stack.Navigator
           initialRouteName="Splash"
           screenOptions={{
             headerShown: false,
-            animationEnabled: true,
+            animation: 'slide_from_right',
             animationTypeForReplace: 'pop',
-            cardStyleInterpolator: ({ current, layouts }) => {
-              return {
-                cardStyle: {
-                  transform: [
-                    {
-                      translateX: current.progress.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [layouts.screen.width, 0],
-                      }),
-                    },
-                  ],
-                },
-              };
-            },
-            transitionSpec: {
-              open: {
-                animation: 'timing',
-                config: {
-                  duration: 500,
-                },
-              },
-              close: {
-                animation: 'timing',
-                config: {
-                  duration: 500,
-                },
-              },
-            },
           }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />
@@ -125,7 +99,8 @@ function App() {
           <Stack.Screen name="Summary" component={SummaryScreen} />
           <Stack.Screen name="Notification" component={NotificationScreen} />
         </Stack.Navigator>
-      </NavigationContainer>
+        </NavigationContainer>
+      </LanguageProvider>
     </SafeAreaProvider>
   );
 }

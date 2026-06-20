@@ -4,6 +4,7 @@ import { styles } from '../../assets/style'
 import { Banknote, Bell, Check, Clock, Coins, Shirt, Star } from 'lucide-react-native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { useLanguage } from '../../LanguageContext';
 import Courier2Svg from '../../img/home screen log.svg';
 import { LATEST_NEWS, RECOMMENDED_TAILORS } from '../../assets/mockdata';
 
@@ -56,8 +57,8 @@ interface SvgIconProps {
 
 
 const HomeTab = () => {
-
-    const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { t } = useLanguage();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
 
     const CourierLogo = ({ size = 60, opacity = 1 }) => (
@@ -86,7 +87,7 @@ const HomeTab = () => {
       </View>
       <View style={styles.welcomeRow}>
         <View>
-          <Text style={styles.welcomeText}>Welcome,</Text>
+          <Text style={styles.welcomeText}>{t('welcome')}</Text>
           <Text style={styles.userName}>Mian Asad</Text>
         </View>
       </View>
@@ -96,8 +97,8 @@ const HomeTab = () => {
         <View style={styles.balanceCard}>
           <View style={styles.balanceLeft}>
             <View>
-              <Text style={styles.balanceLabel}>Balance : </Text>
-              <Text style={styles.pointLabel}>Antar Point :</Text>
+              <Text style={styles.balanceLabel}>{t('balanceLabel')}</Text>
+              <Text style={styles.pointLabel}>{t('pointLabel')}</Text>
             </View>
             <View>
               <Text style={styles.balanceValue}>Rp. 100.000</Text>
@@ -109,13 +110,13 @@ const HomeTab = () => {
               <View style={styles.actionIconWrap}>
                 <Banknote size={28} color="#000000" strokeWidth={2} />
               </View>
-              <Text style={styles.actionLabel}>Add Balance</Text>
+              <Text style={styles.actionLabel}>{t('addBalance')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton}>
               <View style={styles.actionIconWrap}>
                 <Coins size={28} color="#000000" strokeWidth={2} />
               </View>
-              <Text style={styles.actionLabel}>Get Point</Text>
+              <Text style={styles.actionLabel}>{t('getPoint')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -129,9 +130,9 @@ const HomeTab = () => {
       {/* Penjahit Rekomendasi */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recommended Tailor</Text>
+          <Text style={styles.sectionTitle}>{t('recommendedTailor')}</Text>
           <TouchableOpacity>
-            <Text style={styles.lihatSemua}>See All</Text>
+            <Text style={styles.lihatSemua}>{t('seeAll')}</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -182,11 +183,11 @@ const HomeTab = () => {
       {/* Produk Pilihan - Featured Product */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Latest News</Text>
+          <Text style={styles.sectionTitle}>{t('latestNews')}</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('ProductDetails')}
           >
-            <Text style={styles.lihatSemua}>See All</Text>
+            <Text style={styles.lihatSemua}>{t('seeAll')}</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -210,9 +211,9 @@ const HomeTab = () => {
       {/* Berita Terkini */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Berita Terkini</Text>
+          <Text style={styles.sectionTitle}>{t('latestNews')}</Text>
           <TouchableOpacity>
-            <Text style={styles.lihatSemua}>See All</Text>
+            <Text style={styles.lihatSemua}>{t('seeAll')}</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
